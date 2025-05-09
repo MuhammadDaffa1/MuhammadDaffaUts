@@ -62,8 +62,43 @@ onMounted(() => {
 </script>
 
 <template>
- 
- 
+   <div id="app">
+    <div class="container">
+      <div class="card">
+        <h2>🔥 Agenda Harian Tim Pemadam Kebakaran</h2>
+
+        <label class="toggle-show">
+          <input type="checkbox" v-model="tampilkanSelesai" />
+          Tampilkan yang sudah selesai
+        </label>
+
+        <ul class="task-list">
+          <li v-for="(tugas, indeks) in tugasTersaring" :key="indeks">
+            <div class="task-content">
+              <input type="checkbox" v-model="tugas.selesai" />
+              <span :class="{ done: tugas.selesai }">{{ indeks + 1 }}. {{ tugas.nama }}</span>
+            </div>
+            <div class="action-buttons">
+              <button class="edit-btn" @click="editTugas(indeks)">✏</button>
+              <button class="delete-btn" @click="hapusTugas(indeks)">🗑</button>
+            </div>
+          </li>
+        </ul>
+
+        <div class="input-group">
+          <input
+            ref="inputTugas"
+            v-model="tugasBaru"
+            type="text"
+            placeholder="Tambahkan agenda pemadam kebakaran"
+          />
+          <button v-if="sedangEdit" @click="perbaruiTugas">Perbarui</button>
+          <button v-else @click="tambahTugas">Tambah</button>
+          <button v-if="sedangEdit" class="cancel-btn" @click="batalEdit">Batal</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
